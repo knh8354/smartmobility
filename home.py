@@ -1,29 +1,28 @@
 import streamlit as st
 
-st.write('# Hi! welcome to My App!')
+st.header('체질량 계산기', divider='rainbow')
 
-st.write('Nucd to meet you!.')
+st.info("체질량지수는 자신의 몸무게를 키의 제곱으로 나눈 값입니다.")
 
+height = st.number_input("신장(cm)",value=160,step=1)
+st.write(f"신장:{height}(cm)")
 
-if st.button("Say hello"):
-    st.write("Why hello there")
-else:
-    st.write("Goodbye")
+weight = st.number_input("체중(kg)",value=60,step=1)
+st.write(f"체중:{weight}(kg)")
 
+def range_bmi(bmi):
+    if bmi >=25:
+        st.error("비만입니다.",icon="🚨")
+    elif bmi >= 23:
+        st.warning("과체중입니다.",icon="⚠️")
+    elif bmi >= 18.5:
+        st.success("정상입니다.",icon="✅")
+        st.balloons()
+    else :
+        st.warning("저체중입니다.",icon="⚠️")
 
-option = st.selectbox(
-    "좋아하는 동물은?",
-    ("강아지", "고양이", "물고기","토끼","코끼리"))
-
-st.write("내가 좋아하는 동물은", option,"입니다.")
-
-st.write(f"내가 좋아하는 동물은 {option} 입니다.")
-
-txt = st.text_area("자신을 소개해보세요.",'''
-
-    ''')
-
-st.write('입력한 내용:',txt)
-
-age = st.slider("나이를 선택하세요", 0, 130, 25)#범위는 0~130,초기 선택은 25
-st.write(f"나이는 {age} 입니다.")
+if st.button("bmi 계산"):
+    bmi=weight/(height/100)**2
+    st.write(f"체질량 지수:{bmi:.2f}")
+    range_bmi(bmi)
+st.image('image.jpg', caption='균형있는 식단을 추천합니다.')
